@@ -8,11 +8,12 @@ import _ from "lodash";
 
 
 export const Form = props =>{
-    const {handleCreate} = props
+    const {handleAction, buttonName} = props
     const initialValue = {...{first_name:"", last_name:"", age:"", photo: ""}, ...props.initialValue}
+    const initialPhoto = initialValue.photo !== "" ?initialValue.photo : defaultPhoto
 
     const [user, setUser] = useState(initialValue)    
-    const [photo, setPhoto] = useState(defaultPhoto)
+    const [photo, setPhoto] = useState(initialPhoto)
     const [errors, setErrors] = useState({})
 
 
@@ -44,7 +45,7 @@ export const Form = props =>{
             setErrors(errors)
         }
         if(!hasError){ 
-            handleCreate(user, (errors, response) => {
+            handleAction(user, (errors) => {
                 if(!_.isEmpty(errors)){
                     setErrors(errors);
                 }
@@ -53,7 +54,7 @@ export const Form = props =>{
     }
 
     const handleReset = () => {
-        setPhoto(defaultPhoto)
+        setPhoto(initialPhoto)
         setUser(initialValue);
     }
 
@@ -66,7 +67,7 @@ export const Form = props =>{
                 <Input className="col-md-12" error={errors.age} type="number" label="Age*" name="age" onChange={handleChange}  value={user.age}/>
                 <Input className="col-md-12" type="file" label="Photo" name="photo" onChange={handleFileChange}/> 
                 <div className="col-12">
-                    <Button className="btn btn-primary" type="submit" title="Create"/>
+                    <Button className="btn btn-primary" type="submit" title={buttonName}/>
                     <Button className="btn btn-secondary btn-sm" type="reset" title="Reset"/>
                 </div>
             </form>

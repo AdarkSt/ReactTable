@@ -1,4 +1,4 @@
-import { http_GetRequest, http_PostRequest } from "../Utils/AppBasedUtils/http_Request";
+import { http_GetRequest, http_PostRequest, http_PutRequest } from "../Utils/AppBasedUtils/http_Request";
 
 export const createUser = async(user) => {
     const body = JSON.stringify(user)
@@ -12,12 +12,14 @@ export const getUsers = async() => {
 }
 
 export const getUser = async(id) => {
-    const response = await http_GetRequest(`/user/${id}`)
+    const response = await http_GetRequest(id)
     return response
 }
 
 export const updateUser = async(user, id) => {
-
+    const body = JSON.stringify(user)
+    const response = await http_PutRequest(id, body)
+    return response
 }
 
 export const deleteUser = async(id) =>{

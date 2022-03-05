@@ -15,7 +15,7 @@ export const Dashboard = props => {
                     <h1>Welcome to Users Table!!</h1>
                     <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Create your own table of users</h4>
                     <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Edit your table when you want</h4>
-                    <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Save Your work</h4>
+                    <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Save your work</h4>
                     <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Select photos for users</h4>
                 </div>
             </PageLayout>

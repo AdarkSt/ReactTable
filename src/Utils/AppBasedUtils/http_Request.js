@@ -25,7 +25,7 @@ export const http_PostRequest = async (body) => {
 }
 
 export const http_PutRequest = async (id, body) => {
-    const response = await http_Request(`/users/${id}`, "PUT", body);
+    const response = await http_Request(`/users/${id}`, "PATCH", body);
     return response
 }
 
