@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react"
-import { Helmet, HelmetProvider } from "react-helmet-async"
+import { Helmet } from "react-helmet-async"
 import { useHistory, useParams } from "react-router-dom"
-import { PageLayout } from "../../../Layoutes/PageLayout"
-import { updated } from "../../../Services/ToastServices"
+
+import { PageLayout } from "../../../Layoutes/index"
+import { Form } from "../Form/index"
+import { NotFound } from "../../NotFound/index"
+import { Loading } from "../../Loading/index"
+
+import { toastService } from "../../../Services/ToastServices"
 import { getUser, updateUser } from "../../../Services/UserServices"
-import { Header } from "../../Header/Header"
-import { Form } from "../Form/Form"
 import { manipulateUser } from "../Utils/manipulateUser"
+
 import "./EditUser.css"
-import { Loader } from "../../Material/Loader/Loader.js"
+
 
 export const EditUser = props => {
 
@@ -16,17 +20,22 @@ export const EditUser = props => {
     const {id} = useParams()
 
     const [user, setUser] = useState({})
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(true)
 
     useEffect(()=>{
-        const geting = async()=>{
+        const fetching = async()=>{
+            setLoading(true)
             const response = await getUser(id)
-            const _user = await response.json()
-            
-            setUser(_user)
+        
+            if(response.status === 200){
+                const _user = response.data
+                setUser(_user)
+                setError(false)
+            }
             setLoading(false)
         }
-        geting()
+        fetching()
     },[id])
 
     const handleUpdate = async(user, cb) => {
@@ -34,8 +43,8 @@ export const EditUser = props => {
         const _user = await manipulateUser(user)
         const response = await updateUser(_user, id)
         if(response.status === 200) {
-            updated()
-            history.replace('/user')
+            toastService.succes("Successfully Updated")
+            history.replace('/')
         }
         if(response.status === 400){
             errors.validation = "Invalid user"
@@ -43,17 +52,21 @@ export const EditUser = props => {
         cb(errors)
     }
 
+    const Page =<PageLayout>
+                    <div className="update">
+                        <h1 className="title">User Information</h1>
+                        <Form initialValue = {user} buttonName="Update" onSubmit={handleUpdate}/> 
+                    </div>
+                </PageLayout>
+
+    const Content = (!error ? Page : <NotFound/>)
+
     return (
-        <HelmetProvider>
-            <Helmet>
-                <title>Table | Edit User</title>
-            </Helmet>
-            <PageLayout header={<Header/>}>
-                <div className="update">
-                    <h1 className="title">User Information</h1>
-                    {loading ? <Loader/> : <Form initialValue = {user} buttonName="Update" handleAction={handleUpdate}/>}
-                </div>
-            </PageLayout>
-        </HelmetProvider>
+    <>
+        <Helmet>
+            <title>Table | Edit User</title>
+        </Helmet>
+        {loading ? <Loading/> : Content}
+    </>
     )
 }

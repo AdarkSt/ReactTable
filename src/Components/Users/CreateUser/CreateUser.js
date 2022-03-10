@@ -1,12 +1,14 @@
-import "./CreateUser.css"
-import { Form } from "../Form/Form.js"
+import { Helmet } from "react-helmet-async"
+import { useHistory} from "react-router-dom"
+
+import { Form } from "../Form/index"
 import { manipulateUser } from "../Utils/manipulateUser"
 import { createUser } from "../../../Services/UserServices"
-import { useHistory} from "react-router-dom"
-import { PageLayout } from "../../../Layoutes/PageLayout"
-import { Header } from "../../Header/Header"
-import { HelmetProvider, Helmet } from "react-helmet-async"
-import { created } from "../../../Services/ToastServices.js"
+import { PageLayout } from "../../../Layoutes/index"
+import { toastService } from "../../../Services/ToastServices.js"
+
+import "./CreateUser.css"
+
 
 export const CreateUser = props => {
     const history = useHistory()
@@ -16,8 +18,8 @@ export const CreateUser = props => {
         const _user = await manipulateUser(user)
         const response = await createUser(_user)
         if(response.status === 201){
-            created()
-            history.replace('/user')
+            toastService.succes()
+            history.replace('/')
         }
         if(response.status === 400){
             errors.validation = "Invalid user"
@@ -26,17 +28,16 @@ export const CreateUser = props => {
     }
 
     return (
-        <HelmetProvider>
-            <Helmet>
-                <title>Table | Create User</title>
-            </Helmet>
-            <PageLayout header = {<Header/>}>
-                <div className="create">
-                    <h1 className="title">User Information</h1>
-                    <Form handleAction={handleCreate} buttonName="Create"/>
-                </div>
-            </PageLayout>
-        </HelmetProvider>
-        
+    <>
+        <Helmet>
+            <title>Table | Create User</title>
+        </Helmet>
+        <PageLayout>
+            <div className="create">
+                <h1 className="title">User Information</h1>
+                <Form onSubmit={handleCreate} buttonName="Create"/>
+            </div>
+        </PageLayout>
+    </>          
     )
 }

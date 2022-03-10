@@ -1,0 +1,17 @@
+.icon{
+    width: 90px;
+    height: 90px;
+    margin: 0 180px;
+}
+
+.modalTitle{
+    text-align: center;
+    color: rgb(92, 92, 92);
+    margin: 0 40px;
+}
+
+.confirmModal{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

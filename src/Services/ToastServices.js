@@ -1,13 +1,13 @@
 import { toast } from "react-toastify";
 
-export const created = () => {
-    toast.success("Successfuly created")
+class Toast {
+    succes(text="Successfuly created"){
+        toast.success(text);
+    }
+    
+    error(text="Something wents wrong"){
+        toast.error(text)
+    }
 }
 
-export const updated = () => {
-    toast.success("Successfuly updated")
-}
-
-export const failed = () => {
-    toast.error("Something wents wrong")
-}
+export const toastService = new Toast()

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import "./Form.css"
-import {Input} from "../../Material/Inputs/Input/Input.js"
-import {Button} from "../../Material/Inputs/Button/Button.js"
+import _isEmpty from "lodash/isEmpty";
+
+import {Input} from "../../Material/Inputs/Input/index"
+import {Button} from "../../Material/Inputs/Button/index"
+
 import defaultPhoto from "../../../Assets/Images/userPhoto.png"
 import { validateForm } from "./Utils/Validation";
-import _ from "lodash";
+
+import "./Form.css"
+
 
 
 export const Form = props =>{
-    const {handleAction, buttonName} = props
+    const {onSubmit, buttonName} = props
     const initialValue = {...{first_name:"", last_name:"", age:"", photo: ""}, ...props.initialValue}
     const initialPhoto = initialValue.photo !== "" ?initialValue.photo : defaultPhoto
 
@@ -40,13 +44,13 @@ export const Form = props =>{
         let hasError = false;
         const errors = validateForm(user)
         
-        if(!_.isEmpty(errors)) {
+        if(!_isEmpty(errors)) {
             hasError = true;
             setErrors(errors)
         }
         if(!hasError){ 
-            handleAction(user, (errors) => {
-                if(!_.isEmpty(errors)){
+            onSubmit(user, (errors) => {
+                if(!_isEmpty(errors)){
                     setErrors(errors);
                 }
             });
@@ -72,6 +76,5 @@ export const Form = props =>{
                 </div>
             </form>
         </div>
-        
     )
 }

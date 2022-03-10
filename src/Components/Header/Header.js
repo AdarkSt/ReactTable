@@ -1,16 +1,12 @@
-import "./Header.css"
-import { Navbar } from "./Navbar/Navbar.js"
-import { useEffect } from "react"
+import { Navbar } from "./Navbar/index"
 import { Button } from "../Material/Inputs/Button/Button"
 import { useId } from "../../Utils/GlobalUtils/useId"
+
+import "./Header.css"
 
 export const Header = props => {
 
     const id =  "a" + useId()
-
-    useEffect(() => {
-        document.title = props.title
-    },[props.title])
 
     return(
         <div className="header">
@@ -28,8 +24,6 @@ export const Header = props => {
             <div className="collapse" id={id}> 
                 <Navbar/>
             </div>
-            
-            
         </div>
     )
 }

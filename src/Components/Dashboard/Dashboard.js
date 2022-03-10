@@ -1,16 +1,17 @@
+import {Helmet} from "react-helmet-async"
+
 import { PageLayout } from "../../Layoutes/PageLayout"
-import { Header } from "../Header/Header"
-import "./Dashboard.css"
 import dashBoardArrow from "../../Assets/Images/dashboardArrow.png"
-import {Helmet, HelmetProvider} from "react-helmet-async"
+
+import "./Dashboard.css"
 
 export const Dashboard = props => {
     return (
-        <HelmetProvider>
+        <>
             <Helmet>
                 <title>Table | Dashboard</title>
             </Helmet>
-            <PageLayout header={<Header/>}>
+            <PageLayout>
                 <div className="dashboard">
                     <h1>Welcome to Users Table!!</h1>
                     <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Create your own table of users</h4>
@@ -19,7 +20,7 @@ export const Dashboard = props => {
                     <h4><img className="dashArrow" src={dashBoardArrow} alt=""></img>Select photos for users</h4>
                 </div>
             </PageLayout>
-        </HelmetProvider>
+        </>
         
     )
 }
