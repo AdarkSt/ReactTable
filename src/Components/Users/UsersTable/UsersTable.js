@@ -1,11 +1,12 @@
-import { Table } from "../../Material/DataDisplay/Table/index"
-import { Button } from "../../Material/Inputs/Button/index"
+import { Table } from "../../Material/DataDisplay/Table"
+import { Button } from "../../Material/Inputs/Button"
+import { SortLabel } from "../../Material/DataDisplay/Table/SortLabel"
 
 import "./UsersTable.css"
 
 export const UsersTable = props => {
 
-    const {data, handleDelete, handleEdit} = props
+    const {data, handleDelete, handleEdit, sort, handleSort} = props
 
     const tableData = data.map(item => ({
         id: item.id,
@@ -22,15 +23,30 @@ export const UsersTable = props => {
     const colls = [
         {
             key: "first_name",
-            label: "First Name"
+            label: <SortLabel
+                    handleClick={()=> {handleSort("first_name", sort.order)}} 
+                    active={sort.field === "first_name"} 
+                    labelName="First Name" 
+                    order={sort.order}
+                    />
         },
         {
             key: "last_name",
-            label: "Last Name"
+            label: <SortLabel 
+                    handleClick={()=> {handleSort("last_name", sort.order)}} 
+                    active={sort.field === "last_name"} 
+                    labelName="Last Name" 
+                    order={sort.order}
+                    />
         },
         {
             key: "age",
-            label: "Age"
+            label: <SortLabel 
+                    handleClick={()=> handleSort("age", sort.order)} 
+                    active={sort.field === "age"} 
+                    labelName="Age" 
+                    order={sort.order}
+                    />
         },
         {
             key: "photo",

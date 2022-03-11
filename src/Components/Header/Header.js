@@ -1,4 +1,4 @@
-import { Navbar } from "./Navbar/index"
+import { Navbar } from "./Navbar"
 import { Button } from "../Material/Inputs/Button/Button"
 import { useId } from "../../Utils/GlobalUtils/useId"
 

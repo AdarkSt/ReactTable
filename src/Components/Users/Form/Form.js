@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import _isEmpty from "lodash/isEmpty";
 
-import {Input} from "../../Material/Inputs/Input/index"
-import {Button} from "../../Material/Inputs/Button/index"
+import {Input} from "../../Material/Inputs/Input"
+import {Button} from "../../Material/Inputs/Button"
 
 import defaultPhoto from "../../../Assets/Images/userPhoto.png"
 import { validateForm } from "./Utils/Validation";

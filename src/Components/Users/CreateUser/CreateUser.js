@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet-async"
 import { useHistory} from "react-router-dom"
 
-import { Form } from "../Form/index"
+import { Form } from "../Form"
 import { manipulateUser } from "../Utils/manipulateUser"
 import { createUser } from "../../../Services/UserServices"
-import { PageLayout } from "../../../Layoutes/index"
+import { PageLayout } from "../../../Layoutes"
 import { toastService } from "../../../Services/ToastServices.js"
 
 import "./CreateUser.css"

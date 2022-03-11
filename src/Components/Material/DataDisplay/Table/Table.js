@@ -1,6 +1,6 @@
-import { Row } from "./Row/index"
-import { Cell } from "./Cell/index"
-import { HeaderCell } from "./HeaderCell/index"
+import { Row } from "./Row"
+import { Cell } from "./Cell"
+import { HeaderCell } from "./HeaderCell"
 
 import "./Table.css"
 

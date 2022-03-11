@@ -1,4 +1,4 @@
-import { PageInationItem } from "./PageInationItem/index"
+import { PageInationItem } from "./PageInationItem"
 import "./PageInation.css"
 
 export const PageInation = props => {

@@ -6,8 +6,9 @@ export const createUser = async(user) => {
     return response
 }
 
-export const getUsers = async({page = 1, limit = 20, search = ''}) => {
-    const response = await http_GetRequest(`/users?_page=${page}&_limit=${limit}`)
+export const getUsers = async({page = 1, limit = 20, sort, search}) => {
+    
+    const response = await http_GetRequest(`/users?_page=${page}&_limit=${limit}&_sort=${sort.field}&_order=${sort.order}&${search.field}=${search.value}`)
     return {
         data: response.data,
         count: response.headers.get("X-Total-Count"),

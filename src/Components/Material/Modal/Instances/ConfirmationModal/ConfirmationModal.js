@@ -1,5 +1,5 @@
 import { Modal } from "../../Modal";
-import { Button } from "../../../Inputs/Button/index";
+import { Button } from "../../../Inputs/Button";
 import questionIcon from "../../../../../Assets/Images/questionIcon.png"
 
 import "./ConfirmationModal.css"

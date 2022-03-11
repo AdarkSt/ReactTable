@@ -1,9 +1,9 @@
 import { BrowserRouter, Route } from "react-router-dom"
 
-import { EditUser } from "../Components/Users/EditUser/index"
-import { Users } from "../Components/Users/index"
-import { Dashboard } from "../Components/Dashboard/index"
-import { CreateUser } from "../Components/Users/CreateUser/index"
+import { EditUser } from "../Components/Users/EditUser"
+import { Users } from "../Components/Users"
+import { Dashboard } from "../Components/Dashboard"
+import { CreateUser } from "../Components/Users/CreateUser"
 
 export const Routes = props => {
     return (

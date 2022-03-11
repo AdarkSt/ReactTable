@@ -1,4 +1,4 @@
-import { Header } from "../Components/Header/index"
+import { Header } from "../Components/Header"
 
 export const PageLayout = props => {
 return (

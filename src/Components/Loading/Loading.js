@@ -1,4 +1,4 @@
-import { Loader } from "../Material/Loader/index";
+import { Loader } from "../Material/Loader";
 
 import "./Loading.css"
 

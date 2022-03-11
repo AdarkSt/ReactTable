@@ -11,7 +11,7 @@ export const Navbar = props => {
                         <NavLink exact to="/" className="nav-link" activeClassName="nav-link active">Dashboard</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink exact to={{pathname: "/users", search:"?page=1"}} className="nav-link" activeClassName="nav-link active">Users</NavLink>
+                        <NavLink exact to={{pathname: "/users", search:"?page=1&sort=first_name&order=asc"}} className="nav-link" activeClassName="nav-link active">Users</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to="/user/create" className="nav-link" activeClassName="nav-link active">Create</NavLink>
