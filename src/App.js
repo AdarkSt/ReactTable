@@ -7,7 +7,7 @@ import { HelmetProvider} from "react-helmet-async"
 export default function App() {
   return (
     <HelmetProvider>
-      <div className="app">
+      <div>
         <Routes/>
         <ToastContainer/>
       </div>

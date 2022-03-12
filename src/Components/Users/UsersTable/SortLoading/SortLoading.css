@@ -1,0 +1,29 @@
+.sortLoading{
+    display: inline;
+}
+
+.lds-dual-ring-sortLoading {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+  }
+  .lds-dual-ring-sortLoading:after {
+    content: " ";
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: 4px solid rgb(107, 148, 180);
+    border-color: rgb(107, 148, 180) transparent rgb(107, 148, 180) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

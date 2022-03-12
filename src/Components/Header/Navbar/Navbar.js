@@ -6,7 +6,7 @@ export const Navbar = props => {
     return(
         <nav className="navbar navbar-expand-lg navbar-light navBarStyle">
              <div className="collapse navbar-collapse navBarDiv">
-                <ul className="navbar-nav">
+                <ul className="navbar-nav navBarUl">
                     <li className="nav-item">
                         <NavLink exact to="/" className="nav-link" activeClassName="nav-link active">Dashboard</NavLink>
                     </li>

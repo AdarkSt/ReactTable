@@ -3,21 +3,16 @@ import { Helmet } from "react-helmet-async"
 import { useHistory, useLocation,} from "react-router-dom"
 import queryString from "query-string"
 
-import { PageLayout } from "../../Layoutes"
-import { PageInation } from "../Material/PageInation"
-import { UsersTable } from "./UsersTable"
 import { NotFound } from "../NotFound"
 import { ConfirmationModal } from "../Material/Modal"
 import { Loading } from "../Loading"
-import { Dropdown } from "../Material/Inputs/Dropdown"
-import { Search } from "../Material/Inputs/Search"
 
 import { deleteUser, getUsers } from "../../Services/UserServices"
 import { createUrl } from "../../Utils/AppBasedUtils/createUrl"
-import searchIcon from "../../Assets/Images/search.png"
+import {useEffectAllDepsChange} from "../../Utils/GlobalUtils/useEffectAllDepsChange"
 
 import "./Users.css"
-
+import { View } from "./View/View"
 
 export const Users = props => {
 
@@ -29,7 +24,8 @@ export const Users = props => {
     const [tableData, setTableData] = useState([])
     const [dataCount, setDataCount] = useState(0)
     const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState({sortLoad: false, pageLoad:false, searchLoad:false})
+
     const [params, setParams] = useState({
         page: search.page,
         limit: 20, 
@@ -39,8 +35,8 @@ export const Users = props => {
     const [modalState, setModalState] = useState({isOpen:false, data: ""});
     const [searchData, setSearchData] = useState({field:"", value:""})
 
-    const fetching = useCallback(async() => {
-        setLoading(true);
+    const fetching = useCallback(async(loader) => {
+        setLoading(prevLoading => ({...prevLoading, [loader]:true}));
         
         const response = await getUsers(params)
         if(response.status===200){
@@ -49,16 +45,29 @@ export const Users = props => {
             setDataCount(response.count)
             setTableData(tableData)
         }
-        setLoading(false)
+
+        setLoading(prevLoading => ({...prevLoading, [loader]:false}));
     },[params])
-    
-    useEffect(()=> {
+
+    useEffect(()=>{
         fetching()
-    },[fetching, params])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+
+    useEffectAllDepsChange(()=> {
+        fetching("sortLoad") 
+    },[fetching, params.sort])
+
+    useEffectAllDepsChange(()=> {
+        fetching("searchLoad")
+    },[fetching, params.search])
+
+    useEffectAllDepsChange(()=> {
+        fetching("pageLoad")
+    },[fetching, params.page])
 
     const handleSelect = (page) => {
         setParams(prevParams => ({...prevParams, page:page}))
-
         const Url = createUrl({...params, page:page})
         history.push({pathname:"/users", search:Url})
     }
@@ -84,9 +93,8 @@ export const Users = props => {
     const handleSort = (field, order) => {
         const _order = order === "asc" ? "desc" : "asc"
         setParams(prevParams => ({...prevParams, sort:{field:field, order:_order}}))
-
         const Url = createUrl({...params, sort:{field:field, order:order}})
-        history.push({pathname:"/users", search:Url})
+        history.replace({pathname:"/users", search:Url})
     }
 
     const handleSearchFieldSelect = (field) => {
@@ -99,38 +107,34 @@ export const Users = props => {
 
     const handleSearch = () => {
         setParams(prevParams => ({...prevParams, search:searchData}))
-
         const Url = createUrl({...params, search:{field:searchData.field, value:searchData.value}})
-        history.push({pathname:"/users", search:Url})
+        history.replace({pathname:"/users", search:Url})
     }
 
-    const page =<PageLayout>
-                    <div className="searchArea bg-dark">
-                        <img onClick={handleSearch} className="searchIcon" src={searchIcon} alt=""></img>
-                        <Dropdown
-                            handleClick={handleSearchFieldSelect} 
-                            selected={searchData.field} 
-                            title = "Choose field"
-                            fields={[
-                                {key:"first_name", label:"First Name"},
-                                {key: "last_name", label:"Last Name"},
-                                {key:"age", label:"Age"},
-                            ]}
-                        />
-                        <Search value={params.search.param} onChange={(e)=>{handleSearchInputChange(e.target.value)}}  placeholder = "...Search"/>
-                    </div>
-                    <UsersTable handleSort={handleSort} sort={params.sort} handleEdit={handleEdit} handleDelete={handleOpenDeleteModal} data={tableData}/>
-                    <PageInation active={params.page} handleSelect={handleSelect} count={Math.ceil(dataCount/20)}/>
-                </PageLayout> 
+    const page = <View
+                    handleSearch={handleSearch}
+                    handleSearchFieldSelect={handleSearchFieldSelect}
+                    handleOpenDeleteModal={handleOpenDeleteModal}
+                    dataCount={dataCount}
+                    searchData={searchData}
+                    params={params}
+                    handleSort={handleSort}
+                    handleSearchInputChange={handleSearchInputChange}
+                    tableData={tableData}
+                    handleEdit={handleEdit}
+                    handleSelect={handleSelect}
+                    searchLoading = {loading.searchLoad}
+                    sortLoading={loading.sortLoad}
+                />
 
-    const content = (!error ? page :<NotFound/>)
+    const content = (!error ? page : <NotFound/>)
 
     return(
         <>
             <Helmet>
                 <title>Table | Users</title>
             </Helmet>
-            {loading ? <Loading/> : content}
+            {loading.pageLoad ? <Loading/> : content}
             <ConfirmationModal 
                 title = "Do you realy want to delete this user?"
                 acceptBtn = "Delete"

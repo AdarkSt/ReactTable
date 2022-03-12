@@ -6,3 +6,7 @@
     display: flex;
     justify-content: center;
 }
+
+.navBarUl{
+    margin-right: 50px;
+}

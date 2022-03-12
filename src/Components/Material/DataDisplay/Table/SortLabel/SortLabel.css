@@ -10,3 +10,9 @@
 .sortLabel:hover{
     cursor: pointer;
 }
+
+.sortLabel{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}

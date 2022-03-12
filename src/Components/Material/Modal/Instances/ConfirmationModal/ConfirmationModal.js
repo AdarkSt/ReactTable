@@ -10,8 +10,9 @@ export const ConfirmationModal = props => {
         <Modal className="confirmModal" {...modalProps}>
             <h3 className="modalTitle">{title}</h3>
             <img className="icon" src={questionIcon} alt=""></img>
-            <Button onClick={handleAccept} className="btn btn-primary" type="button" title={acceptBtn}/>
-            <Button onClick={handleDenny} className="btn btn-secondary" type="button" title={dennyBtn}/>
+            
+                <Button onClick={handleAccept} className="btn btn-primary modalBtn" type="button" title={acceptBtn}/>
+                <Button onClick={handleDenny} className="btn btn-secondary" type="button" title={dennyBtn}/>
         </Modal>
     )
 }

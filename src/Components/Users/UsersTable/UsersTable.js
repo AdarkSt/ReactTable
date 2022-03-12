@@ -6,7 +6,7 @@ import "./UsersTable.css"
 
 export const UsersTable = props => {
 
-    const {data, handleDelete, handleEdit, sort, handleSort} = props
+    const {data, handleDelete, handleEdit, sort, handleSort, sortLoading} = props
 
     const tableData = data.map(item => ({
         id: item.id,
@@ -24,6 +24,7 @@ export const UsersTable = props => {
         {
             key: "first_name",
             label: <SortLabel
+                    loading={sortLoading}
                     handleClick={()=> {handleSort("first_name", sort.order)}} 
                     active={sort.field === "first_name"} 
                     labelName="First Name" 
@@ -33,6 +34,7 @@ export const UsersTable = props => {
         {
             key: "last_name",
             label: <SortLabel 
+                    loading={sortLoading}
                     handleClick={()=> {handleSort("last_name", sort.order)}} 
                     active={sort.field === "last_name"} 
                     labelName="Last Name" 
@@ -42,6 +44,7 @@ export const UsersTable = props => {
         {
             key: "age",
             label: <SortLabel 
+                    loading={sortLoading}
                     handleClick={()=> handleSort("age", sort.order)} 
                     active={sort.field === "age"} 
                     labelName="Age" 

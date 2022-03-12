@@ -9,7 +9,7 @@ export const Table = props => {
     const {data, colls} = props
     
     return(
-        <table className="table Table table-hover">
+        <table className="table Table table-striped table-bordered table-hover">
             <thead>
                 <Row Cell={HeaderCell} colls={colls}/>
             </thead>

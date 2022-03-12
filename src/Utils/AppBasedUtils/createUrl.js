@@ -1,7 +1,5 @@
 export const createUrl = (params={}) => {
 
-    console.log("params", params);
-
    const obj = {
        page: params.page,
        sort: params.sort.field,

@@ -6,8 +6,7 @@ export const Dropdown = props => {
     const {title, selected, fields, handleClick} = props
     
     const active = fields.find(item => item.key === selected)
-    console.log(active)
-
+    
     const id = useId()
 
     return(
