@@ -26,12 +26,16 @@ export const EditUser = props => {
     useEffect(()=>{
         const fetching = async()=>{
             setLoading(true)
-            const response = await getUser(id)
-        
-            if(response.status === 200){
-                const _user = response.data
-                setUser(_user)
-                setError(false)
+            try{
+                const response = await getUser(id)
+                if(response.status === 200){
+                    const _user = response.data
+                    setUser(_user)
+                    setError(false)
+                }
+            }
+            catch(e){
+                toastService.error("Connection failed")
             }
             setLoading(false)
         }

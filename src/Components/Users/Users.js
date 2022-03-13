@@ -8,11 +8,13 @@ import { ConfirmationModal } from "../Material/Modal"
 import { Loading } from "../Loading"
 
 import { deleteUser, getUsers } from "../../Services/UserServices"
+import { toastService } from "../../Services/ToastServices"
 import { createUrl } from "../../Utils/AppBasedUtils/createUrl"
 import {useEffectAllDepsChange} from "../../Utils/GlobalUtils/useEffectAllDepsChange"
 
 import "./Users.css"
 import { View } from "./View/View"
+
 
 export const Users = props => {
 
@@ -35,39 +37,30 @@ export const Users = props => {
     const [modalState, setModalState] = useState({isOpen:false, data: ""});
     const [searchData, setSearchData] = useState({field:"", value:""})
 
-    const fetching = useCallback(async(loader) => {
-        setLoading(prevLoading => ({...prevLoading, [loader]:true}));
-        
-        const response = await getUsers(params)
-        if(response.status===200){
-            const tableData = response.data
-            setError(false)
-            setDataCount(response.count)
-            setTableData(tableData)
+    const fetching = useCallback(async() => {
+        try{
+            const response = await getUsers(params)
+            if(response.status===200){
+                const tableData = response.data
+                setError(false)
+                setDataCount(response.count)
+                setTableData(tableData)
+            }
         }
-
-        setLoading(prevLoading => ({...prevLoading, [loader]:false}));
+        catch(e){
+            toastService.error("Connection failed")
+        }
+        setLoading({sortLoad:false, searchLoad:false, pageLoad:false})
     },[params])
 
-    useEffect(()=>{
+    useEffect(()=> {
         fetching()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-
-    useEffectAllDepsChange(()=> {
-        fetching("sortLoad") 
-    },[fetching, params.sort])
-
-    useEffectAllDepsChange(()=> {
-        fetching("searchLoad")
-    },[fetching, params.search])
-
-    useEffectAllDepsChange(()=> {
-        fetching("pageLoad")
-    },[fetching, params.page])
+    }, [fetching])
 
     const handleSelect = (page) => {
+        setLoading(prevLoading => ({...prevLoading, pageLoad:true}))
         setParams(prevParams => ({...prevParams, page:page}))
+
         const Url = createUrl({...params, page:page})
         history.push({pathname:"/users", search:Url})
     }
@@ -92,7 +85,9 @@ export const Users = props => {
 
     const handleSort = (field, order) => {
         const _order = order === "asc" ? "desc" : "asc"
+        setLoading(prevLoading => ({...prevLoading, sortLoad:true}))
         setParams(prevParams => ({...prevParams, sort:{field:field, order:_order}}))
+
         const Url = createUrl({...params, sort:{field:field, order:order}})
         history.replace({pathname:"/users", search:Url})
     }
@@ -106,7 +101,9 @@ export const Users = props => {
     }
 
     const handleSearch = () => {
+        setLoading(prevLoading => ({...prevLoading, searchLoad:true}))
         setParams(prevParams => ({...prevParams, search:searchData}))
+
         const Url = createUrl({...params, search:{field:searchData.field, value:searchData.value}})
         history.replace({pathname:"/users", search:Url})
     }

@@ -16,15 +16,21 @@ export const CreateUser = props => {
     const handleCreate = async (user, cb) => {
         const errors = {}
         const _user = await manipulateUser(user)
-        const response = await createUser(_user)
-        if(response.status === 201){
-            toastService.succes()
-            history.replace('/')
+        try{
+            const response = await createUser(_user)
+            if(response.status === 201){
+                toastService.succes()
+                history.replace('/')
+            }
+            if(response.status === 400){
+                errors.validation = "Invalid user"
+            }
+            cb(errors);
         }
-        if(response.status === 400){
-            errors.validation = "Invalid user"
+        catch(e){
+            toastService.error("Connection failed")
         }
-        cb(errors);
+       
     }
 
     return (
